@@ -71,9 +71,10 @@ virtual filesystem. It can only load directly from byte streams.
 
 For more detail on loading assets, see `doc/loading.md`. 
 
-### Extending Bakery
+### Extensions
 
-Bakery's plugin system allows you to author build chains for new file types,
-taking advantage of existing infrastructure. For information on doing so,
-consult `doc/authoring.md`.
+Bakery's plugin system makes it easy to modify the build chain for a file
+type or create a new build chain for an entirely new type of file. 
+For more information on installing or authoring extensions, see
+`doc/extensions.md`.
 
