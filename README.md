@@ -4,18 +4,18 @@ Bakery
 Bakery is a system for importing and preprocessing game assets offline
 (colloquially known as "baking"). 
 
-### Why?
+## Why?
 
-* You no longer need to compile and distribute your content import
-  libraries (e.g. [assimp](http://assimp.sourceforge.net), 
-  [libpng](http://www.libpng.org/pub/png/libpng.html)) for every platform
-  your game supports. Instead, you need only set up these libraries for
-  your development environment.
+* Importing / preprocessing your assets at build time rather than
+  runtime can drastically improve load times.
 
-* By preprocessing your data once at build time, you can reduce the
-  work your game does at runtime, decreasing loading wait time.
+* Instead of compiling and distributing your content import libraries
+  with your game, you only need to distribute Bakery's runtime library
+  (which is lightweight, has no external dependencies, and is released
+  under a permissive license). You'll still need to set up content
+  import libraries, but only for your development environment. 
 
-### How?
+## How?
 
 Bakery consists of an offline baking system (which may be run in batch
 mode or integrated with other systems) and a thin, cross-platform 
@@ -30,13 +30,35 @@ In its default configuration, Bakery can handle
 * Meshes (any format supported by [assimp](http://assimp.sourceforge.net))
 
 Bakery is made available under the 
-[LGPL v3](http://www.opensource.org/licenses/lgpl-3.0.html).
+[BSD 3-Clause License](http://www.opensource.org/licenses/BSD-3-Clause).
 
-### Bakery is in an early development stage
+## Bakery is in an early development stage
 
-Move along now ...
+Things are likely to not work yet. Venture further at your own peril.
 
-### Baking Content
+## Installation
+
+Bakery's core has no dependencies other than the STL. However, Bakery is
+distributed with a core set of plugins that support several formats. 
+These plugins require the following libraries to be built in your
+development environment (it's probably easiest to `make install` these,
+assuming you're in a UNIX-like environment). 
+
+* [libavcodec](http://ffmpeg.org)
+* [assimp](http://assimp.sourceforge.net)
+
+Once you're ready, you can build Bakery the unix way: 
+
+    $ ./configure
+    $ make -j 4
+
+By default, Bakery creates the folder `bin/` containing the headers
+and libraries needed to build content and load data at runtime. To
+install these, run
+
+    $ make install
+
+## Baking Content
 
 Each asset is baked in three steps:
 
@@ -55,9 +77,9 @@ Each asset is baked in three steps:
 This process is described for each asset in a Bakefile, which can be 
 executed to produce output via the command-line utility `bake`. 
 
-For more detail on baking content, see `doc/baking.md`.
+For more detail on baking content, see `doc/baking.markdown`.
 
-### Loading Content
+## Loading Content
 
 Data is loaded directly from byte streams via `BakeryReader` objects. 
 Bakery can automatically determine the correct `BakeryReader` for a given
@@ -69,12 +91,12 @@ asset can point to the asset in memory.
 Note Bakery does _not_ implement any sort of archive management or 
 virtual filesystem. It can only load directly from byte streams.
 
-For more detail on loading assets, see `doc/loading.md`. 
+For more detail on loading assets, see `doc/loading.markdown`. 
 
-### Extensions
+## Extensions
 
 Bakery's plugin system makes it easy to modify the build chain for a file
 type or create a new build chain for an entirely new type of file. 
 For more information on installing or authoring extensions, see
-`doc/extensions.md`.
+`doc/extensions.markdown`.
 
