@@ -77,7 +77,7 @@ To additionally specify how to write the image:
     menu/title : MyPngImporter(title.png)
         HueShift(120)
         Saturate(1.5)
-        MyPngExporter
+        MyTextureExporter
 
 ## Bakery API
 
