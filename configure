@@ -1,0 +1,17 @@
+#!/bin/sh
+# lol what's autoconf?
+
+echo "Bootstrapping build system..."
+mkdir bin > /dev/null 2>&1
+cd buildsrc
+make
+
+echo 
+echo "Creating bakery distribution from plugins..."
+cd ..
+bin/build-bakery
+
+echo
+echo "All done. Use make to build bakery."
+
+
