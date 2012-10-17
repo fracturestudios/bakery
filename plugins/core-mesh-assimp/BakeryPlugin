@@ -1,0 +1,17 @@
+BakeryCore.MeshAssimp v1.0
+
+;
+; TODO 
+; I made up these INCLUDES / LIBRARIES flags while stubbing things out.
+; They may not actually reflect how assimp gets make install'ed
+; Besides, I think assimp needs boost and stuff.
+;
+
+INCLUDES = -Iassimp
+LIBRARIES = -lassimp
+
+BAsset      Mesh            mesh.h
+BImporter   MeshImporter    meshimporter.h
+BWriter     MeshWriter      meshwriter.h
+BReader     MeshReader      meshreader.h
+

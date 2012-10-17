@@ -1,8 +1,4 @@
 
-## Repo setup
-
-* Define a couple of dummy plugins for testing
-
 ## build-bakery
 
 * Scan directories
