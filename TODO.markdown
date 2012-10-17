@@ -1,7 +1,6 @@
 
 ## Repo setup
 
-* Define the base offline and runtime headers in src/
 * Define a couple of dummy plugins for testing
 
 ## build-bakery
@@ -23,4 +22,6 @@
 bakery (base time definitions, basic build system)
 
 bake (hook into bakery's API)
+
+core plugins (map out and implement individual plugins)
 
