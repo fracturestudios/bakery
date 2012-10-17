@@ -87,6 +87,8 @@ to integrate the plugin into Bakery's source code before compilation. The
 file is structured as follows:
 
     OrganizationName.PluginName vVersionName
+    INCLUDES=...
+    LIBRARIES=...
     ; This is a comment
     ; All empty lines are ignored
 
@@ -97,6 +99,10 @@ file is structured as follows:
 
 * The first line describes the name and version of the plugin.
   Version numbers are freeform but should resemble an actual version number.
+* The INCLUDES line contains g++ -I flags for libraries whose headers your
+  plugin needs to include. This is used only when compiling the offline system.
+* The LIBRARIES line contains g++ -l and -L flags for libraries you want to
+  link against. This is used only when compiling the offline system.
 * Afterward there is one line for each object you need to register with 
   Bakery. Items are separated by arbitrary amounts of whitespace.
     * `TypeName` denotes which Bakery object type is implemented. Must be one of:
@@ -109,6 +115,8 @@ file is structured as follows:
 Example:
 
     FractureStudios.NullZeroLevel v1.0
+    INCLUDES=-Iglew -Isomelib
+    LIBRARIES=-lglew -l/usr/local/somelib -Lsomelib
 
     BAsset      NZLevel                     level.h
     BImporter   NZLevelImporter             importer.h
