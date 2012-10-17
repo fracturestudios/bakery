@@ -5,30 +5,37 @@ Bakery loads data directly from user-provided byte streams. It does not
 implement archive management or a virtual filesystem like 
 [physicsfs](http://icculus.org/physfs/). 
 
-To load baked content from your application, you need to link against
-the Bakery runtime. The runtime is written in pure C++ with no external
-dependencies, other than the STL. It works on many platforms without
-requiring any modifications. 
+To load baked content from your application, use the bakery runtime. You have
+two options: link against `libbakeryrt` or simply compile the source into your
+application. 
+
+The runtime is written in pure C++ with no external dependencies, other than 
+the STL. It compiles on many platforms without requiring any modifications. 
 
 ## Loading Data
 
-Loading the menu title image from the example in `doc/baking.md`:
+Loading the menu title image from the example in `doc/baking.markdown`:
 
     #include "bakery/runtime.h"
 
-    BImage* load_img(const char *path) {
-
+    BImage* loadImage(const char *path) 
+    {
         void *buf; unsigned len;
         my_read_file(path, &buf, &len);
 
         BReader *read = BReader::for(buf, len);
-        if (!read) 
+        if (!read) {
+            delete[] buf;
             return 0;
+        }
 
         BImage *img = 0;
-        if (0 != read->loadAs<BImage>(buf, len, &img))
+        if (0 != read->loadAs<BImage>(buf, len, &img)) {
+            delete[] buf;
             return 0;
+        }
 
+        delete[] buf;
         return img;
     }
 
@@ -36,15 +43,18 @@ A shorter, more convenient example:
 
     #include "bakery/runtime.h"
 
-    BImage *load_img(const char *path) {
-
+    BImage *loadImage(const char *path) 
+    {
         void *buf; unsigned len;
         my_read_file(path, &buf, &len);
 
         BImage *img;
-        if (0 != BReader::load<BImage>(buf, len, &img))
+        if (0 != BReader::load<BImage>(buf, len, &img)) {
+            delete[] buf;
             return 0;
+        }
 
+        delete[] buf;
         return img;
     }
 
@@ -52,21 +62,24 @@ Loading an asset without yet knowing its type:
 
     #include "bakery/runtime.h"
 
-    BAsset *load_something(const char *path) {
-
+    BAsset *load_something(const char *path) 
+    {
         void *buf; unsigned len;
         my_read_file(path, &buf, &len);
 
         BAsset *asset;
-        if (0 != BReader::load(buf, len, &asset))
+        if (0 != BReader::load(buf, len, &asset)) {
+            delete[] buf;
             return 0;
+        }
 
+        delete[] buf;
         return asset;
     }
 
 Inspecting asset types at runtime:
 
-    bool is_image(BAsset *asset) {
+    bool isImage(BAsset *asset) {
         return asset->type() == BImage::type();
     }
 
@@ -80,7 +93,7 @@ Every `BAsset` subtype works differently, exposing raw data and providing
 a few helper functions. Consult the documentation for each asset subtype
 to learn how it works.
 
-In general, Bakery assets should be treated immutably, so that all objects 
+The author suggests you treat Bakery assets as immutable, so that all objects 
 that refer to the same asset can share a pointer to the same data in memory. 
 This removes pointer-ownership headaches and reduces memory waste from having 
 several copies of the same asset in memory.
