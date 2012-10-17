@@ -3,23 +3,23 @@ Baking Content
 
 Each asset is baked in three steps:
 
-* First, the asset is _imported_. This step decodes the asset from its
-  native format (e.g. .png, .ogg, .3ds) into an intermediate format.
-  This step is completed by a `BakeryImporter`.
-
-* Then, the asset is _processed_. Processors modify the input data in
-  some way and produce an output, which may be of a different format.
-  Processors form a chain where the input of each link is the same type
-  as the ouptut of the previous link.
-  This step is accomplished by a chain of `BakeryProcesor`s. 
-
+* First, the asset is _imported_. This step decodes the asset from its native 
+  format (e.g. .png, .ogg, .3ds) into an intermediate format. This step is 
+  completed by a `BakeryImporter`.
+* Then, the asset is _processed_. Processors modify the asset data in a
+  meaningful way. The output can be data in the same or a different format.
 * Finally, the asset is _written_ by a `BakeryWriter`. 
+
+The overall pipeline forms a chain, starting with a `BakeryImporter` and 
+ending with a `BakeryWriter`. There can be zero or more `BakeryProcessor`s
+in between. The output format of each link in this chain is always the same
+as the input format of the next link.
 
 There are two ways to use Bakery
 
 * If you have an existing build system, you can use the Bakery API to
   invoke the build chain for individual assets.
-* Otherwise you can use the command-line utility `bake`.
+* Otherwise you might find it simpler to use the `bake` utility.
 
 ## `bake`
 
@@ -28,31 +28,31 @@ It processes directives in a `Bakefile`.
 
 A `Bakefile` consists of a list of directives, of the form
 
-    output : input(s)
-        recipe
-        recipe
-        recipe
+    output_path: importer(input_path)
+        processor
+        processor(args)
+        writer
 
-* The `output` may be a folder to place baked assets in or a single
-  file to output to. 
-* The `input` may be one or more files to process
-* The `recipe` lines tell Bakery how to process the file
-    * The first line of a recipe is which `BakeryImporter` to use. 
-      If no importer is specified, Bakery infers one based on the
-      file extension of the input.
-    * The rest of the lines are content processors that transform
-      the loaded data. 
-    * The last line denotes which `BakeryWriter` to use. If no
-      writer is specified, Bakery infers one based on the type of
-      the content produced by last importer / processor to run on
-      the asset.
+* `output_path` is the file to write the final output to. If the path contains
+  spaces or commas, it should be enclosed in double quotes.
+* `input_path` is the file to read initially. If the path contains spaces or 
+  commas, it should be enclosed in double quotes.
+* `importer` is the importer to use to read the file. If you would like bakery
+  to infer the proper importer from the file's path, you can just specify the
+  file path without an importer.
+* `processor` directives consist of the name of a processor, plus any optional
+  arguments to pass to the processor. Processor direectives are processed from 
+  top to bottom (i.e. in the order specified).
+* `writer` is the name of the `BakeryWriter` to use to finally serialize the
+  asset. If no writer is specified, bakery will use the writer paired with the
+  selected importer, if available. 
 
 By default, `bake` reads the Bakefile in the current directory and
 produces output in the current directory. Either can be changed 
 using arguments to the command line utility.
 
 The files produced by the baking step can then be loaded using
-the Bakery runtime API. See `doc/loading.md`.
+the Bakery runtime API. See `doc/loading.markdown`.
 
 ## Bakefiles by Example
 
@@ -63,43 +63,21 @@ To bake a single assset:
 To process an asset:
 
     menu/title : title.png
-        hueshift 120
-        saturate 1.5
-
-To process several files the same way:
-
-    menu/ : title.png, controls.png
-        hueshift 120
-        saturate 1.5
-
-In the above example, `bake` produces the output files `menu/title` and
-`menu/controls`.
+        HueShift(120)
+        Saturate(1.5)
 
 To specify how to import the image:
 
-    menu/title : title.png
-        MyImporter
-        hueshift 120
-        saturate 1.5
+    menu/title : MyPngImporter(title.png)
+        HueShift(120)
+        Saturate(1.5)
 
-To specify how to write the image:
+To additionally specify how to write the image:
 
-    menu/title : title.png
-        MyImporter
-        hueshift 120
-        saturate 1.5
-        MyWriter
-
-To avoid redundancy, define recipes:
-
-    menufx : theimage
-        MyImporter
-        hueshift 120
-        saturate 1.5
-        MyWriter
-
-    menu/title : title.png
-        menufx
+    menu/title : MyPngImporter(title.png)
+        HueShift(120)
+        Saturate(1.5)
+        MyPngExporter
 
 ## Bakery API
 
@@ -107,20 +85,22 @@ By example:
 
     #include "bakery/offline.h"
 
-    bool process_img(const char *inpath, const char *outpath) {
-
+    bool bakeImage(const char *inpath, const char *outpath) 
+    {
         BImporter *imp = BImporter::infer(inpath);
-        if (!imp)
+        if (!imp) {
             return false;
+        }
 
         BAsset *data = 0;
         int err = imp->import(inpath);
-        if (err)
+        if (err) {
             return false;
+        }
 
         BProcessor *proc[] = { 
-            my_get_hue_processor(),
-            my_get_saturate_processor()
+            getMyHueProcessor(120),
+            getMySaturateProcessor(1.5),
         };
 
         for (int i = 0; i < sizeof(proc) / sizeof(proc[0]); ++i) {
