@@ -10,13 +10,13 @@ LIBS =
 
 # Sources
 #
-HEADERS = 
-SOURCES = main.o
+HEADERS = scan.h
+SOURCES = main.o \
+		  scan.o
 
 # Flags
 #
-DEBUGFLAGS =
-CFLAGS = 
+CFLAGS = -Wall
 LDFLAGS = 
 
 # Plumbing
@@ -26,7 +26,7 @@ CXX = g++
 
 all: $(TARGET)
 
-%.o: %.c $(HEADERS)
+%.o: %.cpp $(HEADERS)
 	$(CXX) -c -o $@ $< $(CFLAGS) $(INCLUDES)
 
 $(TARGET): $(SOURCES)
