@@ -7,7 +7,7 @@ cd buildsrc
 make
 
 echo 
-echo "Creating bakery distribution from plugins..."
+echo "Creating bakery distribution from plugin manifests..."
 cd ..
 bin/build-bakery
 
