@@ -2,23 +2,18 @@
 #include <iostream>
 
 #include "manifest.h"
-#include "scan.h"
 
 using namespace std;
 
 int main(int argc, const char *argv[]) 
 {
-    vector<string> manifests = scan("plugins", "BakeryPlugin");
+    vector<PluginManifest> manifests = PluginManifest::loadAll("./plugins");
+        
     for (size_t i = 0; i < manifests.size(); ++i)
     {
-        PluginManifest pm;
-        if (!pm.load(manifests[i]))
-        {
-            cout << "Warning: couldn't parse " << manifests[i] << "\n";
-            continue;
-        }
+        PluginManifest &pm = manifests[i];
 
-        cout << "Loaded:  " << manifests[i] << "\n"
+        cout << "Loaded:  " << pm.path() << "\n"
              << "Plugin:  " << pm.pluginName() << "\n"
              << "By:      " << pm.orgName() << "\n"
              << "Version: " << pm.pluginVersion() << "\n"

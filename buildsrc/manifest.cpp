@@ -1,5 +1,6 @@
 
 #include "manifest.h"
+#include "scan.h"
 
 #include <cassert>
 #include <fstream>
@@ -43,6 +44,16 @@ PluginManifestObject::~PluginManifestObject() { }
 PluginManifest::PluginManifest() { }
 
 PluginManifest::~PluginManifest() { }
+
+const string &PluginManifest::path() const
+{
+    return m_path;
+}
+
+void PluginManifest::setPath(const string &value)
+{
+    m_path = value;
+}
 
 const string &PluginManifest::orgName() const
 {
@@ -101,6 +112,7 @@ vector<PluginManifestObject> &PluginManifest::objects()
 
 void PluginManifest::clear()
 {
+    m_path.clear();
     m_orgName.clear();
     m_pluginName.clear();
     m_pluginVersion.clear();
@@ -294,5 +306,24 @@ bool PluginManifest::save(const string &path) const
 
     file.close();
     return true;
+}
+
+vector<PluginManifest> PluginManifest::loadAll(const string &directory)
+{
+    vector<PluginManifest> manifests;
+    vector<string> paths = scan(directory, "BakeryPlugin");
+
+    for (size_t i = 0; i < paths.size(); ++i)
+    {
+        PluginManifest pm;
+
+        if (pm.load(paths[i]))
+        {
+            pm.setPath(paths[i]);
+            manifests.push_back(pm);
+        }
+    }
+
+    return manifests;
 }
 

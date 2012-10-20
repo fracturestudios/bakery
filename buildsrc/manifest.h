@@ -49,6 +49,12 @@ public:
     PluginManifest();
     ~PluginManifest();
 
+    /** Gets or sets the path to the manifest file this object
+      * corresponds to. If not applicable, returns an empty string.
+      */
+    const std::string &path() const;
+    void setPath(const std::string &);
+
     /** Gets or sets the organization that created this plugin */
     const std::string &orgName() const;
     void setOrgName(const std::string &);
@@ -88,7 +94,11 @@ public:
       */
     bool save(const std::string &path) const;
 
+    /** Recursively scans a subdirectory for plugin manifests and loads them */
+    static std::vector<PluginManifest> loadAll(const std::string &directory);
+
 private:
+    std::string                         m_path;
     std::string                         m_orgName;
     std::string                         m_pluginName;
     std::string                         m_pluginVersion;
