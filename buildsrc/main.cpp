@@ -11,7 +11,7 @@ int main(int argc, const char *argv[])
         
     for (size_t i = 0; i < manifests.size(); ++i)
     {
-        PluginManifest &pm = manifests[i];
+        const PluginManifest &pm = manifests[i];
 
         cout << "Loaded:  " << pm.path() << "\n"
              << "Plugin:  " << pm.pluginName() << "\n"

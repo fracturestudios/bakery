@@ -110,6 +110,11 @@ vector<PluginManifestObject> &PluginManifest::objects()
     return m_objects;
 }
 
+const vector<PluginManifestObject> &PluginManifest::objects() const
+{
+    return m_objects;
+}
+
 void PluginManifest::clear()
 {
     m_path.clear();

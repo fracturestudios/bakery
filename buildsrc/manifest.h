@@ -79,6 +79,7 @@ public:
       * exported by this plugin.
       */
     std::vector<PluginManifestObject> &objects();
+    const std::vector<PluginManifestObject> &objects() const;
 
     /** Removes all objects and resets all fields of this manifest */
     void clear();
