@@ -1,10 +1,6 @@
 
 ## build-bakery
 
-* Change repo layout a bit
-    * buildsrc/ -> build/
-    * bin/build-bakery -> build/build-bakery
-    * That way bin only contains bake (i.e. things that belong in $INSTALL/bin).
 * Generate a makefile
     * Builds all of bakery's source files / headers
     * Builds all found plugin source files / headers

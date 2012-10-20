@@ -1,7 +1,7 @@
 
 # Output
 #
-TARGET = ../bin/build-bakery
+TARGET = build-bakery
 
 # Libraries
 #

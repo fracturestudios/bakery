@@ -2,6 +2,7 @@
 *.slo
 *.lo
 *.o
+build-bakery
 
 # Compiled Dynamic libraries
 *.so

@@ -2,16 +2,17 @@
 # lol what's autoconf?
 
 echo "Bootstrapping build system..."
-mkdir bin > /dev/null 2>&1
-cd buildsrc
+cd build
 make
 
 echo 
 echo "Creating bakery distribution from plugin manifests..."
 cd ..
+mkdir bin > /dev/null 2>&1
 mkdir include > /dev/null 2>&1
 mkdir include/bakery > /dev/null 2>&1
-bin/build-bakery
+
+build/build-bakery
 
 echo
 echo "All done. Use make to build bakery."
