@@ -1,14 +1,13 @@
 
 #include <iostream>
 
+#include "headers.h"
 #include "manifest.h"
 
 using namespace std;
 
-int main(int argc, const char *argv[]) 
+static void printPlugins(const vector<PluginManifest> &manifests)
 {
-    vector<PluginManifest> manifests = PluginManifest::loadAll("./plugins");
-        
     for (size_t i = 0; i < manifests.size(); ++i)
     {
         const PluginManifest &pm = manifests[i];
@@ -32,6 +31,40 @@ int main(int argc, const char *argv[])
 
         cout << "\n";
     }
+}
+
+static void genHeader(const string &inpath, 
+                      const vector<PluginManifest> &manifests,
+                      const string &outpath)
+{
+    cout << "Writing " << outpath << "...";
+    cout.flush();
+
+    Headers header;
+    header.setBasePath(inpath);
+
+    for (size_t i = 0; i < manifests.size(); ++i)
+    {
+        const vector<PluginManifestObject> &o = manifests[i].objects();
+
+        for (size_t j = 0; j < o.size(); ++j)
+            header.includePaths().push_back(o[i].header);
+    }
+
+    if (header.compile(outpath))
+        cout << "done\n";
+    else
+        cout << "error\n";
+}
+
+int main(int argc, const char *argv[]) 
+{
+    vector<PluginManifest> manifests = PluginManifest::loadAll("./plugins");
+        
+    printPlugins(manifests);
+
+    genHeader("src/bakery/offline.h", manifests, "include/bakery/offline.h");
+    genHeader("src/bakery/runtime.h", manifests, "include/bakery/runtime.h");
 
     return 0;
 }

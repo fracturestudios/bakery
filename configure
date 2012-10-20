@@ -9,6 +9,8 @@ make
 echo 
 echo "Creating bakery distribution from plugin manifests..."
 cd ..
+mkdir include > /dev/null 2>&1
+mkdir include/bakery > /dev/null 2>&1
 bin/build-bakery
 
 echo

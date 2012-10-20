@@ -11,10 +11,12 @@ LIBS =
 # Sources
 #
 HEADERS = scan.h \
-		  manifest.h
+		  manifest.h \
+		  headers.h
 SOURCES = main.o \
 		  scan.o \
-		  manifest.o
+		  manifest.o \
+		  headers.o
 
 # Flags
 #

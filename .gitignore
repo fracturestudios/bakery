@@ -2,7 +2,6 @@
 *.slo
 *.lo
 *.o
-bin/
 
 # Compiled Dynamic libraries
 *.so
@@ -15,4 +14,8 @@ bin/
 # Vim temp files
 *.swp
 *.swo
+
+# Directories created by the build system
+bin/
+include/
 
