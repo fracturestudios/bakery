@@ -22,11 +22,14 @@ static vector<string> listNative(const string &directory,
     if (!dir)
         return contents;
 
-    while ((ent = readdir(dir))) {
+    while ((ent = readdir(dir))) 
+    {
         bool omitted = false;
 
-        for (size_t i = 0; i < sizeof(omit) / sizeof(omit[0]); ++i) {
-            if (0 == strcmp(ent->d_name, omit[i])) {
+        for (size_t i = 0; i < sizeof(omit) / sizeof(omit[0]); ++i) 
+        {
+            if (0 == strcmp(ent->d_name, omit[i])) 
+            {
                 omitted = true;
                 break;
             }
@@ -69,7 +72,7 @@ static bool endsWith(const string &base, const string &suffix)
         return false;
 
     string chopped = base.substr(base.length() - suffix.length());
-    return 0 == chopped.compare(suffix);
+    return chopped == suffix;
 }
 
 static void scanRecursive(const string &directory,
@@ -79,11 +82,11 @@ static void scanRecursive(const string &directory,
     // Find files in this directory
     vector<string> files = listFiles(directory);
 
-    if (files.size() > 0) {
-        for (int i = (int)files.size() - 1; i >= 0; --i) {
+    if (files.size() > 0) 
+    {
+        for (int i = (int)files.size() - 1; i >= 0; --i) 
             if (!endsWith(files[i], extension))
                 files.erase(files.begin() + i);
-        }
 
         for (size_t i = 0; i < files.size(); ++i) 
             out.push_back(directory + "/" + files[i]);
