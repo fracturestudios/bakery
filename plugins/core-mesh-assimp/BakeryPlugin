@@ -7,8 +7,8 @@ BakeryCore.MeshAssimp v1.0
 ; Besides, I think assimp needs boost and stuff.
 ;
 
-INCLUDES = -Iassimp
-LIBRARIES = -lassimp
+INCLUDES    -Iassimp
+LIBRARIES   -lassimp
 
 BAsset      Mesh            mesh.h
 BImporter   MeshImporter    meshimporter.h

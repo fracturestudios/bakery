@@ -6,8 +6,8 @@ BakeryCore.AudioAvcodec v1.0
 ; They may not actually reflect how avcodec gets make install'ed
 ;
 
-INCLUDES = -Iavcodec
-LIBRARIES = -lavcodec
+INCLUDES    -Iavcodec
+LIBRARIES   -lavcodec
 
 BAsset      Sound           sound.h
 BImporter   SoundImporter   soundimporter.h
