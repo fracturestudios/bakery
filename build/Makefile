@@ -12,11 +12,13 @@ LIBS =
 #
 HEADERS = scan.h \
 		  manifest.h \
-		  headers.h
+		  headers.h \
+		  makefile.h
 SOURCES = main.o \
 		  scan.o \
 		  manifest.o \
-		  headers.o
+		  headers.o \
+		  makefile.o
 
 # Flags
 #

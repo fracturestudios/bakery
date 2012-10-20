@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "headers.h"
+#include "makefile.h"
 #include "manifest.h"
 
 using namespace std;
@@ -57,6 +58,14 @@ static void genHeader(const string &inpath,
         cout << "error\n";
 }
 
+static void genMakefile(const vector<PluginManifest> &manifests)
+{
+    cout << "Writing Makefile ...";
+    cout.flush();
+
+    cout << "not yet implemented\n";
+}
+
 int main(int argc, const char *argv[]) 
 {
     vector<PluginManifest> manifests = PluginManifest::loadAll("./plugins");
@@ -65,6 +74,7 @@ int main(int argc, const char *argv[])
 
     genHeader("src/bakery/offline.h", manifests, "include/bakery/offline.h");
     genHeader("src/bakery/runtime.h", manifests, "include/bakery/runtime.h");
+    genMakefile(manifests);
 
     return 0;
 }
