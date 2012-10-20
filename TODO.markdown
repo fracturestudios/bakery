@@ -1,7 +1,6 @@
 
 ## build-bakery
 
-* Parse BakeryPlugin metadata files
 * Load base offline / runtime headers
 * Concatenate headers
 * Save headers in repo/include
