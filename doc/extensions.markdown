@@ -87,8 +87,8 @@ to integrate the plugin into Bakery's source code before compilation. The
 file is structured as follows:
 
     OrganizationName.PluginName vVersionName
-    INCLUDES=...
-    LIBRARIES=...
+    INCLUDES    ...
+    LIBRARIES   ...
     ; This is a comment
     ; All empty lines are ignored
 
@@ -115,8 +115,8 @@ file is structured as follows:
 Example:
 
     FractureStudios.NullZeroLevel v1.0
-    INCLUDES=-Iglew -Isomelib
-    LIBRARIES=-lglew -l/usr/local/somelib -Lsomelib
+    INCLUDES     -Iglew -Isomelib
+    LIBRARIES    -lglew -l/usr/local/somelib -Lsomelib
 
     BAsset      NZLevel                     level.h
     BImporter   NZLevelImporter             importer.h
