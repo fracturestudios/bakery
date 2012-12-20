@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+def main():
+    print "Hello world!"
+
+if __name__ == '__main__':
+    main()
+
+# TODO
+# - Learn how python extensions work
+# - Container object for intermediate asset objects
+#   (wraps C++ data, provides type safety)
+# - Container object for build chain items
+# - Figure out how we're going to search for and load extensions
+# - Figure out how we're going to specify build chains (Bakefiles?)
+# - Load build chain
+# - Validate build chain
+# - Load extensions for build chain
+# - Generate assets
+# - Generate source files for loading the assets
+

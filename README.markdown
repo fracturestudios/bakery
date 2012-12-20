@@ -1,12 +1,12 @@
 
 bakery will be an asset precompiler for game developers. Offline preprocessing
-provides developers with two major developers:
+provides developers with two major benefits:
 
-* Since most of the heavy lifting is done once, offline, load times may improve
+* Load times can improve, since heavy lifting is done offline
 * Since only the precompiler needs to import assets from their 'native'
   formats (e.g. .3ds, .png, .mp3), only the precompiler needs to link against
   specialized libraries for doing so (e.g. assimp, avcodec). This makes
-  compiling cross-platform a bit less of a headache!
+  compiling cross-platform less of a headache.
 
 ## How It Works
 
