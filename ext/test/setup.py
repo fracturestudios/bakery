@@ -1,13 +1,14 @@
 from distutils.core import setup, Extension
 
-NAME                    = 'bakery-test-extension'
+NAME                    = 'bakery.ext.test'
 DESC                    = 'Learning how to build C extensions'
 DESCRIPTION             = 'Longer description text'
 AUTHOR                  = 'Dave Kilian'
 EMAIL                   = 'dave.kilian@gmail.com'
 URL                     = 'http://github.com/fracturestudios/bakery'
 
-MODULE                  = 'bakery.ext.test'
+PACKAGE                 = 'bakery.ext'
+MODULE                  = 'test'
 VERSION_MAJOR           = 1
 VERSION_MINOR           = 0
 
@@ -39,6 +40,7 @@ def main():
           author = AUTHOR,
           author_email = EMAIL,
           url = URL,
+          ext_package = PACKAGE,
           ext_modules = [module])
 
 if __name__ == '__main__':
