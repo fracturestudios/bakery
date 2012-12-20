@@ -2,7 +2,7 @@ from distutils.core import setup, Extension
 
 NAME                    = 'bakery'
 DESC                    = 'Game asset precompiler'
-DESCRIPTION             = 'TODO long description'
+DESCRIPTION             = DESC
 AUTHOR                  = 'Dave Kilian'
 EMAIL                   = 'dave.kilian@gmail.com'
 URL                     = 'http://github.com/fracturestudios/bakery'

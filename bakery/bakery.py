@@ -1,16 +1,29 @@
 #!/usr/bin/env python
 
-if __name__ == '__main__':
-    print "bakery.bakery is the entry point to bakery's Python API"
-    print "If you want to use bakery, try this instead:"
-    print
-    print "   bake --help"
-    print
+import glob
+import imp
+import os
+
+_SCRIPTDIR =  os.path.dirname(os.path.realpath(__file__))
+_EXTROOT = os.path.join(_SCRIPTDIR, 'ext')
+
+def load_extensions():
+    print "Loading extensions..."
+    ext = [ ]
+
+    for module in glob.glob(os.path.join(_EXTROOT, '*.so')):
+        try:
+            name = 'bakery.ext.%s' % os.path.basename(module)[:-len('.so')]
+            print "   ", name, "...",
+            ext.append(imp.load_dynamic(name, module))
+            print "ok"
+        except:
+            print "error (not a module?)"
+
+    return ext
+
 
 # TODO
-# - Learn how python extensions work
-#   http://docs.python.org/2/extending/index.html
-#   Looks like the ctypes module could be useful for interop
 # - Container object for intermediate asset objects
 #   (wraps C++ data, provides type safety)
 # - Container object for build chain items
@@ -28,16 +41,4 @@ if __name__ == '__main__':
 # - Setup instructions
 # - List of core extensions
 # - Core extensions
-
-# Extensions
-# TODO this belongs in a standalone doc eventually
-# Looks like what we can do is
-# - Look through predefined search paths
-#   (make this easy to configure in the source itself.
-#    By default, look in bakery/ext/, i.e. bakery.ext)
-# - For each package in bakery.ext, dir() it and check if it has a bakery
-#   module
-# - If it does, imp.load_module() the bakery module and add it to some global
-#   extensions list
-#       
 
