@@ -14,6 +14,9 @@
 # Compiled Python
 *.pyo
 *.pyc
+build/
+dist/
+MANIFEST
 
 # Vim temp files
 *.swp
