@@ -47,22 +47,11 @@ def process_asset(TODO, arglist):
 def export_asset(TODO, arglist):
     pass
 
-def build(chain):
-    chain.bake()
-
-
 # TODO
-# - Container object for assets. Should support some sort of dictionary hashed
-#   from a strig identifier to an asset. This allows importers and processors
-#   to pull in multiple input assets and pack them all into a single output
-#   asset.
-#   The actual asset object should be:
-#   - A zero-indexed list of binary blobs
-#   - A one-to-one map from ID string to binary blob
-#   - A one-to-many map from typeid string to binary blob
-# - Container object for build chain items
-# - Figure out how we're going to specify build chains (Bakefiles?)
-# - Documentation for specifying build chains
+# - asset module
+# - core module
+# - buildchain module
+# - bakefile module
 # - Documentation for building extensions
 # - Build a couple of dummy core extensions
 # - Load build chain
