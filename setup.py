@@ -24,11 +24,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-# TODO
-# Build system currently works, and if you
-# cd /Library/Python/2.7/site-packages
-# you can import bakery.ext.test just fine.
-# BUT the import fails if you're not in the right directory.
-# This may not be a huge deal, because imp.load_dynamic() works as expected.
-# Still is bothering me, however
-
