@@ -1,46 +1,73 @@
-""" Utility for loading and saving build chains """
 
-# TODO move all of this to a buildchain.py
+import bakery.buildchain
+import bakery.core
 
-class BuildStep:
-    """ A step in the build chain """
+class BakefileItem:
+    """
+    Represents a directive in a bakefile. A directive is a complete clause of
+    the form,
 
-    IMPORT  = 0 # A build step that produces an asset from a stream
-    PROCESS = 1 # A build step that processes an asset
-    EXPORT  = 2 # A build step that exports an asset to a stream
+    output re=pattern: input, dependencies
+        build steps
 
-class BuildChain:
+    Attributes:
 
-    inpath = ''
-    importer = None
-    outpath = ''
-    exporter = None
-    steps = [ ]
+    chain [BuildChain]  The input/process/output steps for each asset
+    inputs [str]        A glob string selecting all inputs to this item
+    deps [list]         A list of glob strings selecting all inputs on which
+                        this asset depends
+    outputs [str]       A re.sub replacement string specifying the output for
+                        each globbed input
+    pattern [str]       A re.sub search string selecting arguments for the
+                        output string
+    """
 
-def _import_step(typename, filename):
-    pass
+    def __init__(self):
+        self.chain = None
+        self.inputs = None
+        self.deps = None
+        self.outputs = None
+        self.pattern = None
 
-def _process_step(typename, arglist):
-    pass
+    def _last_modified(self, path):
+        return None # TODO
 
-def _export_step(typename, filename):
-    pass
+    def bake(self):
+        """
+        Processes this directive
 
-# TODO use buildchain.py here
+        All inputs and dependencies are first globbed. For each input path, the
+        corresponding output path is computed using re.sub().
 
-def load(data):
-    pass
+        For each input/output pair, the output's last-modified time is checked
+        against that of the input and every dependency. If the output doesn't
+        exist or is out of date, the input is loaded and passed through the
+        build chain using the API in bakery.core.
+        """
+        pass
 
-def save(chain):
-    pass
 
-"""
-def load_file(path):
-    with open(path, 'r') as f
-        return load(f.read())
+class Bakefile:
+    """
+    Represents, parses and processes an entire Bakefile
 
-def save_file(path):
-    with open(path, 'w+') as f
-        f.write(save(data))
-"""
+    Attributes:
+
+    items [list]    A list of BakefileItem objects that populate the Bakefile
+    """
+
+    def __init__(self):
+        self.items = [ ]
+
+    def load(self, path):
+        pass
+
+    def save(self, path):
+        pass
+
+    def bake(self):
+        """ bake()s each item in the Bakefile """
+
+        for i in self.items:
+            i.bake()
 

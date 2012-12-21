@@ -1,4 +1,4 @@
-""" Public bakery API """
+""" Core API """
 
 import glob
 import imp
@@ -6,6 +6,8 @@ import os
 
 _SCRIPTDIR =  os.path.dirname(os.path.realpath(__file__))
 _EXTROOT = os.path.join(_SCRIPTDIR, 'ext')
+
+extensions = { }
 
 def load_extensions():
     """ 
@@ -33,7 +35,8 @@ def load_extensions():
             except:
                 print "error (not a module?)"
 
-    return ext
+    global extensions
+    extensions = ext
 
 def import_asset(TODO, arglist):
     pass
@@ -45,7 +48,7 @@ def export_asset(TODO, arglist):
     pass
 
 def build(chain):
-    pass
+    chain.bake()
 
 
 # TODO
