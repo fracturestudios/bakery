@@ -53,6 +53,10 @@ def build(chain):
 #   from a strig identifier to an asset. This allows importers and processors
 #   to pull in multiple input assets and pack them all into a single output
 #   asset.
+#   The actual asset object should be:
+#   - A zero-indexed list of binary blobs
+#   - A one-to-one map from ID string to binary blob
+#   - A one-to-many map from typeid string to binary blob
 # - Container object for build chain items
 # - Figure out how we're going to specify build chains (Bakefiles?)
 # - Documentation for specifying build chains
