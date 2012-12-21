@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+""" Public bakery API """
 
 import glob
 import imp
@@ -8,27 +8,54 @@ _SCRIPTDIR =  os.path.dirname(os.path.realpath(__file__))
 _EXTROOT = os.path.join(_SCRIPTDIR, 'ext')
 
 def load_extensions():
-    print "Loading extensions..."
-    ext = [ ]
+    """ 
+    Searches _EXTROOT for C extensions and loads them into the current
+    interpreter. Returns a dictionary from the extension's module name to the
+    module itself.
+    """
 
-    for module in glob.glob(os.path.join(_EXTROOT, '*.so')):
-        try:
-            name = 'bakery.ext.%s' % os.path.basename(module)[:-len('.so')]
-            print "   ", name, "...",
-            ext.append(imp.load_dynamic(name, module))
-            print "ok"
-        except:
-            print "error (not a module?)"
+    print "Loading extensions..."
+    ext = { }
+
+    for pattern in [ '*.so', '*.pyo', '*.pyc' ]:
+        for module in glob.glob(os.path.join(_EXTROOT, pattern)):
+            try:
+                name = os.path.basename(module)
+                name = os.path.splitext(name)[0]
+                if name == '__init__':
+                    continue
+
+                name = 'bakery.ext.' + name
+                print "   ", name, "...",
+
+                ext[name] = imp.load_dynamic(name, module)
+                print "ok"
+            except:
+                print "error (not a module?)"
 
     return ext
 
+def import_asset(TODO, arglist):
+    pass
+
+def process_asset(TODO, arglist):
+    pass
+
+def export_asset(TODO, arglist):
+    pass
+
+def build(chain):
+    pass
+
 
 # TODO
-# - Container object for intermediate asset objects
-#   (wraps C++ data, provides type safety)
+# - Container object for assets. Should support some sort of dictionary hashed
+#   from a strig identifier to an asset. This allows importers and processors
+#   to pull in multiple input assets and pack them all into a single output
+#   asset.
 # - Container object for build chain items
-# - Figure out how we're going to search for and load extensions
 # - Figure out how we're going to specify build chains (Bakefiles?)
+# - Documentation for specifying build chains
 # - Documentation for building extensions
 # - Build a couple of dummy core extensions
 # - Load build chain
