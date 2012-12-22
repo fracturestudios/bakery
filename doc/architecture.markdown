@@ -1,4 +1,3 @@
-
 Bakery is an extension-driven tool for precompiling game assets. It assumes
 that you want to encode your assets into a format that is readily accessible
 for games, written in C or C++. However, you may use any language that can call
@@ -120,12 +119,12 @@ processing on assets that have been loaded already. The dictionary maps from
 `name` to a `callback` function. `name` is defined the same as in the 
 `importers` section above. The callback function has the signature
 
-    callback(asset, args)
+    callback(args, asset)
 
-* `asset` - A bakery asset container that contains the loaded data to process
-            and should receive the processed data
 * `args` - A dictionary of key/value string pairs containing arguments
            specified by the user, usually through a Bakefile
+* `asset` - A bakery asset container that contains the loaded data to process
+            and should receive the processed data
 
 The function doesn't return anything. If it fails, it raises an exception.
 
@@ -136,13 +135,13 @@ to a file. The dictionary maps from `name` to a `callback` function. `name` is
 defined the same as in the `importers` section above. The callback function has
 the signature
 
-    callback(asset, args, stream)
+    callback(stream, args, asset)
 
-* `asset` - A bakery asset container that contains the data to export
-* `args` - A dictionary of key/value string pairs containing arguments
-           specified by the user, usually through a Bakefile
 * `stream` - A file object, opened in binary mode, to which binary asset data
              should be written.
+* `args` - A dictionary of key/value string pairs containing arguments
+           specified by the user, usually through a Bakefile
+* `asset` - A bakery asset container that contains the data to export
 
 The function doesn't return anything. If it fails, it raises an exception.
 
