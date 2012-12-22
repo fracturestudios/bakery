@@ -1,13 +1,17 @@
 """ Core API """
 
 import glob
-import imp
 import os
+
+from imp import load_dynamic
 
 _SCRIPTDIR =  os.path.dirname(os.path.realpath(__file__))
 _EXTROOT = os.path.join(_SCRIPTDIR, 'ext')
 
-extensions = { }
+extensions = { }    # extension name => module object
+importers = { }     # importer name => (list(file extensions), callback)
+processors = { }    # processor name => callback
+exporters = { }     # exporter name => callback
 
 def load_extensions():
     """ 
@@ -17,7 +21,10 @@ def load_extensions():
     """
 
     print "Loading extensions..."
-    ext = { }
+    global extensions
+    global importers
+    global processors
+    global exporters
 
     for pattern in [ '*.so', '*.pyo', '*.pyc' ]:
         for module in glob.glob(os.path.join(_EXTROOT, pattern)):
@@ -30,13 +37,16 @@ def load_extensions():
                 name = 'bakery.ext.' + name
                 print "   ", name, "...",
 
-                ext[name] = imp.load_dynamic(name, module)
+                e = load_dynamic(name, module)
+                (imp, proc, exp) = e.extensions()
+                importers.update(imp)
+                processors.update(proc)
+                exporters.update(exp)
+
+                extensions[name] = e
                 print "ok"
             except:
                 print "error (not a module?)"
-
-    global extensions
-    extensions = ext
 
 def import_asset(TODO, arglist):
     pass
@@ -48,6 +58,7 @@ def export_asset(TODO, arglist):
     pass
 
 # TODO
+# - create a test extension that actually implements stuff
 # - core module
 # - buildchain module
 # - bakefile module
