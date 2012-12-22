@@ -132,7 +132,6 @@ def export_asset(stream, exporter, args, asset):
     cb(stream, args, asset)
 
 # TODO
-# - buildchain module
 # - bakefile module
 # - C99 helper library for extensions
 # - Fully functional test extension (do something trivial with a text file)

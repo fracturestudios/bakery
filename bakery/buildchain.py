@@ -1,5 +1,6 @@
 
-import bakery.core
+from bakery.asset import *
+from bakery.core import *
 
 class BuildStep:
     """
@@ -7,17 +8,15 @@ class BuildStep:
 
     Attributes:
 
-    module [str]    The name of the module to defer to at this build step.
-                    A value of 'Foo' means invoke bakery.ext.Foo
-    args [dict]     The argument list to pass to the module. Argument names
-                    map to argument values. Names and values are always
-                    strings.
+    name [str]      The name of the extension to call on this step
+    args [dict]     Contains string key/value pairs to pass as parameters to
+                    the extension at this step.
     """
 
-    def __init__(self, module, args = { }):
-        self.module = processor
+    def __init__(self, name, args = { }):
+        self.name = name
         self.args = args
-                            
+
 
 class BuildChain:
     """
@@ -32,11 +31,56 @@ class BuildChain:
     """
 
     def __init__(self, import_step = None, export_step = None):
-        self.import_step = import_step
-        self.export_step = export_step
-        self.process_steps = [ ]
+        self._import_step = import_step
+        self._export_step = export_step
+        self._process_steps = [ ]
+
+    def import_step(self, name, args = { }):
+        """ 
+        Sets the build chain's import step 
+
+        name [str]  The name of the importer to use
+        args [dict] Contains string key/value pairs to pass to the importer
+        """
+
+        self._import_step = BuildStep(name, args)
+
+    def process_step(self, name, args = { }):
+        """ 
+        Sets the build chain's process step 
+
+        name [str]  The name of the processor to use
+        args [dict] Contains string key/value pairs to pass to the processor
+        """
+        self._process_steps.append(BuildStep(name, args))
+
+    def export_step(self, name, args = { }):
+        """ 
+        Sets the build chain's export step 
+
+        name [str]  The name of the exporter to use
+        args [dict] Contains string key/value pairs to pass to the exporter
+        """
+        self._export_step = BuildStep(name, args)
 
     def bake(self, instream, outstream):
-        """ TODO uses high-level bakery.core api to import, process, export """
-        pass
+        """
+        Executes the build chain
+
+        instream [file]     An open binary file with the seek pointer at the
+                            beginning. Contains the asset data to load.
+        outstream [file]    An open binary file with the seek pointer at the
+                            beginning. Receives the precompiled asset.
+        """
+
+        imp = self._import_step
+        exp = self._export_step
+        a = Asset()
+
+        import_asset(instream, imp.name, imp.args, a)
+
+        for p in self._process_steps:
+            process_asset(p.name, p.args, a)
+
+        export_asset(outstream, exp.name, exp.args, a)
 
