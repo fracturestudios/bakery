@@ -58,7 +58,6 @@ def export_asset(TODO, arglist):
     pass
 
 # TODO
-# - create a test extension that actually implements stuff
 # - core module
 # - buildchain module
 # - bakefile module
