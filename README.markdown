@@ -24,5 +24,5 @@ Extensions can extend the pipeline by
 
 ## Setting Up
 
-How can you set up something that doesn't exist? #zen
+    sudo make install
 

@@ -61,15 +61,10 @@ def export_asset(TODO, arglist):
 # - core module
 # - buildchain module
 # - bakefile module
+# - C99 helper library for extensions
+# - Fully functional test extension (do something trivial with a text file)
 # - Documentation for building extensions
-# - Build a couple of dummy core extensions
-# - Load build chain
-# - Validate build chain
-# - Load extensions for build chain
-# - Generate assets
-# - Generate source files for loading the assets
-# - Setup stuff
-# - Setup instructions
-# - List of core extensions
+# - Figure out how we'll generate runtime library
+# - Generate runtime library
 # - Core extensions
 
