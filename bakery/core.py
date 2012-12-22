@@ -48,7 +48,6 @@ def export_asset(TODO, arglist):
     pass
 
 # TODO
-# - asset module
 # - core module
 # - buildchain module
 # - bakefile module
@@ -59,7 +58,6 @@ def export_asset(TODO, arglist):
 # - Load extensions for build chain
 # - Generate assets
 # - Generate source files for loading the assets
-# - Figure out how to set up python packages
 # - Setup stuff
 # - Setup instructions
 # - List of core extensions
