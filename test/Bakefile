@@ -1,0 +1,6 @@
+
+test/outputfile : test/inputfile
+    TestImporter
+    TestProcessor
+    TestExporter
+

@@ -71,6 +71,22 @@ def default_importer(path):
 
     return None
 
+def is_importer(name):
+    """ Indicates whether 'name' names a known importer """
+    return name in importers
+
+def is_processor(name):
+    """ Indicates whether 'name' names a known processor """
+    return name in processors
+
+def is_exporter(name):
+    """ Indicates whether 'name' names a known exporter """
+    return name in exporters
+
+def is_extension(name):
+    """ Indicates whether 'name' names a known extension """
+    return is_importer(name) or is_processor(name) or is_exporter(name)
+
 def importer(name):
     """ Gets the callback for the importer with the given name """
     return importers[name][1]

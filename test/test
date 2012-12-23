@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+from bakery.bakefile import *
+from bakery.buildchain import *
+from bakery.core import *
+
+load_extensions()
+b = Bakefile()
+b.load("./Bakefile")
+
+for i in b.items:
+    print i.inputs
+    print i.outputs
+    print i.pattern
+    print i.deps
+    print i.chain
+
+    for c in i.chain:
+            print c.name
+            print c.args
+
