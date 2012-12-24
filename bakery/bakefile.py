@@ -98,7 +98,7 @@ class Bakefile:
                     end = refind('(?<!\\)"', line)
                     if end == -1:
                         raise Exception("Line %d: Unterminated string constant"
-                                % linenum)
+                                % (linenum + 1))
                     items.append(line[1:end])
                     line = line[end + 1:].strip()
                 else:   # bare substring
@@ -135,7 +135,7 @@ class Bakefile:
             # Split input and output clauses
             idx = line.find(':')
             if idx == -1:
-                raise Exception("Line %d: Missing ':' in item" % i)
+                raise Exception("Line %d: Missing ':' in item" % (i + 1))
 
             outclause = line[:idx].strip()
             inclause = line[idx + 1:].strip()
@@ -151,13 +151,13 @@ class Bakefile:
                 pattern = outparts[1]
                 if not pattern.startswith('re='):
                     raise Exception("Line %d: Expecting re= clause at %s"
-                                     % (i, outparts[1]))
+                                     % (i + 1, outparts[1]))
                 pattern = pattern[len('re='):]
 
             # Parse the input clause
             inparts = [ s.strip() for s in inclause.split(',')]
             if len(inparts) == 0:
-                raise Exception("Line %d: No inputs for rule" % i)
+                raise Exception("Line %d: No inputs for rule" % (i + 1))
 
             inputs = inparts[0]
             deps = inparts[1:]
@@ -176,24 +176,24 @@ class Bakefile:
                 if idx == -1:
                     if not is_extension(line):
                         raise Exception("Line %d: Unknown extension %s" \
-                                        % (i, line))
+                                        % (i + 1, line))
 
                     chain.append(BuildStep(line))
                 else:
                     name = line[:idx]
                     if not is_extension(name):
                         raise Exception("Line %d: Unknown extension %s" \
-                                        % (i, name))
+                                        % (i + 1, name))
 
                     line = line[idx + 1:]
 
                     idx = line.find(')')
                     if idx == -1:
-                        raise Exception("Line %d: Unmatched open-paren" % i)
+                        raise Exception("Line %d: Unmatched open-paren" % (i + 1))
 
                     argstr = line[:idx]
                     args = dict((a[:a.find('=')], a[a.find('=') + 1:]) \
-                                for a in partition(argstr))
+                                for a in partition(argstr, i))
 
                     chain.append(BuildStep(name, args))
                 i += 1
@@ -203,10 +203,10 @@ class Bakefile:
             for step in chain:
                 if step != chain[0] and is_importer(step.name):
                     raise Exception("With rule starting on line %d: importer %s must be first item in build chain" \
-                                    % (origline, step.name))
+                                    % (origline + 1, step.name))
                 elif step != chain[-1] and is_exporter(step.name):
                     raise Exception("With rule starting on line %d: exporter %s must be last item in build chain" \
-                                    % (origline, step.name))
+                                    % (origline + 1, step.name))
 
                 if is_importer(step.name):
                     item.chain._import_step = step

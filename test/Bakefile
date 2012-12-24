@@ -1,6 +1,7 @@
 
-test/outputfile : test/inputfile
-    TestImporter
-    TestProcessor
-    TestExporter
+test/outputfile re=testpattern : test/inputfile, dep1, dep2,dep3  , dep4
+    TestImporter(arg1=val1 arg2=val2)
+    TestProcessor(arg3=val3)
+    TestProcessor(arg4=val4)
+    TestExporter( arg5=val5            arg6=val6 )
 

@@ -9,13 +9,13 @@ b = Bakefile()
 b.load("./Bakefile")
 
 for i in b.items:
-    print i.inputs
-    print i.outputs
-    print i.pattern
-    print i.deps
-    print i.chain
+    print 'in', i.inputs
+    print 'out', i.outputs
+    print 'pattern', i.pattern
+    print 'deps', i.deps
 
-    for c in i.chain:
-            print c.name
-            print c.args
+    print 'imp', i.chain._import_step.name, i.chain._import_step.args
+    for s in i.chain._process_steps:
+        print 'proc', s.name, s.args
+    print 'exp', i.chain._export_step.name, i.chain._export_step.args
 
