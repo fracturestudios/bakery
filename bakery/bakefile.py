@@ -25,12 +25,12 @@ class BakefileItem:
     """
 
     def __init__(self, inputs = None, deps = None, outputs = None, \
-                 pattern = None, chain = BuildChain()):
-        self.chain = chain
+                 pattern = None, chain = None):
         self.inputs = inputs
         self.deps = deps
         self.outputs = outputs
         self.pattern = pattern
+        self.chain = chain if chain != None else BuildChain()
 
     def _last_modified(self, path):
         return None # TODO
