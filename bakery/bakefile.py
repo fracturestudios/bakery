@@ -32,6 +32,19 @@ class BakefileItem:
         self.pattern = pattern
         self.chain = chain if chain != None else BuildChain()
 
+    def __str__(self):
+        ret = '%s re=%s : %s' % (self.outputs, self.pattern, self.inputs)
+        for dep in self.deps:
+            ret += ', ' + dep
+        ret += '\n'
+
+        ret += '    %s\n' % str(self.chain._import_step)
+        for step in self.chain._process_steps:
+            ret += '    %s\n' % str(step)
+        ret += '    %s\n' % str(self.chain._export_step)
+
+        return ret
+
     def _last_modified(self, path):
         return None # TODO
 
@@ -66,11 +79,14 @@ class Bakefile:
     def __init__(self):
         self.items = [ ]
 
+    def __str__(self):
+        return '\n'.join([ str(i) for i in self.items ])
+
     def _parse(self, contents):
-        """ TODO """
+        """ Parses a bakefile and stores the result in this object """
 
         def refind(needle, haystack):
-            """ TODO """
+            """ Like str.find(), but matches a regex instead of a substring """
             m = re.search(needle, haystack)
             return m.start() if m else -1
 
@@ -218,14 +234,19 @@ class Bakefile:
             self.items.append(item)
 
     def load(self, path):
-        """ TODO """
-
+        """ 
+        Loads the contents of the bakefile at the given path, and stores its
+        contents into this object
+        """
         f = open(path, 'r')
         self._parse(f.read())
         f.close()
 
     def save(self, path):
-        pass
+        """ Writes the contents of this object into a Bakefile on disk """
+        f = open(path, 'w')
+        f.write(str(self))
+        f.close()
 
     def bake(self):
         """ bake()s each item in the Bakefile """

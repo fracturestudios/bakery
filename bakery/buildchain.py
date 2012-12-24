@@ -17,6 +17,13 @@ class BuildStep:
         self.name = name
         self.args = args
 
+    def __str__(self):
+        ret = self.name + '('
+        for (k, v) in self.args.items():
+            ret += ' %s=%s' % (k, v)
+        ret += ' )'
+        return ret
+
 
 class BuildChain:
     """

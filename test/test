@@ -19,3 +19,6 @@ for i in b.items:
         print 'proc', s.name, s.args
     print 'exp', i.chain._export_step.name, i.chain._export_step.args
 
+print b
+b.save('Bakefile2')
+
