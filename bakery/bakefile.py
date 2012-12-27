@@ -2,7 +2,9 @@
 from bakery.buildchain import *
 from bakery.core import *
 
+import glob
 import re
+import time
 
 class BakefileItem:
     """
@@ -45,12 +47,39 @@ class BakefileItem:
 
         return ret
 
-    def _last_modified(self, path):
-        return None # TODO
-
     def fill(self):
         """ Fills in any build steps missing from this item """
+        # TODO
+        # We need to do some designing here. Since assets can have multiple
+        # channels, it's not clear which channel should be used in the default
+        # exporter.
+        # Furthermore, it's not even clear we need to have special behavior for
+        # exporting. We could implement bakery.asset in C++ and have it do all
+        # its own memory management. Then runtime wrapper just needs to know
+        # how to load an asset. Users can fill out their structs by directly
+        # using pointers created by the asset, e.g. by using a take() function.
         pass
+
+    def _mtime(self, path):
+        """ 
+        Gets the given file's last modification time.
+        Returns the unix epoch if the file does not exist.
+        """
+        try:
+            return os.path.getmtime(path)
+        except os.error:
+            return 0
+
+    def _epoch(self, paths):
+        """
+        Returns the most recent modification time for any file given by an item
+        in the paths list. Any output file that was modified before the epoch
+        needs to be rebuilt.
+        """
+        if len(paths) == 0:
+            return 0
+
+        return max([ self._mtime(p) for p in paths ])
 
     def bake(self):
         """
@@ -64,7 +93,34 @@ class BakefileItem:
         exist or is out of date, the input is loaded and passed through the
         build chain using the API in bakery.core.
         """
-        pass
+        self.fill()
+
+        inputpaths = glob.glob(self.inputs)
+
+        if len(inputpaths) == 0:
+            print 'WARNING - file(s) not found:', self.inputs
+            print '          current working directory:', os.getcwd()
+
+        deppaths = [ path for dep in self.deps for path in glob.glob(dep) ]
+
+        depepoch = self._epoch(deppaths)
+
+        for inpath in inputpaths:
+            outpath = re.sub(self.pattern, self.outputs, inpath)
+
+            intime = self._mtime(inpath)
+            outtime = self._mtime(outpath)
+
+            if outtime < intime or outtime < depepoch:
+                print inpath, "-->", outpath
+
+                instream = open(inpath, 'rb')
+                outstream = open(outpath, 'wb+')
+
+                self.chain.bake(instream, outstream)
+
+                instream.close()
+                outstream.close()
 
 
 class Bakefile:
@@ -157,7 +213,7 @@ class Bakefile:
             inclause = line[idx + 1:].strip()
 
             # Parse the output clause
-            pattern = '(*)'
+            pattern = '(.*)'
             outputs = 'build/\\1.built'
 
             outparts = partition(outclause, i)

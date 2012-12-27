@@ -1,27 +1,7 @@
 
-test/outputfile re=testpattern : test/inputfile, dep1, dep2,dep3  , dep4
+outputfile: inputfile, dep1, dep2,dep3  , dep4
     TestImporter(arg1=val1 arg2=val2)
     TestProcessor(arg3=val3)
     TestProcessor(arg4=val4)
     TestExporter( arg5=val5            arg6=val6 )
 
-test/out2 re=re2 : test/in2, second, dep, list
-    TestImporter(arg1=val1 arg2=val2)
-    TestProcessor(arg3=val3)
-    TestProcessor(arg4=val4)
-    TestExporter( arg5=val5            arg6=val6 )
-test/out2 re=re2 : test/in2, second, dep, list
-    TestImporter(arg1=val1 arg2=val2)
-    TestProcessor(arg3=val3)
-    TestProcessor(arg4=val4)
-    TestExporter( arg5=val5            arg6=val6 )
-
-
-
-
-
-test/out2 re=re2 : test/in2, second, dep, list
-    TestImporter(arg1=val1 arg2=val2)
-    TestProcessor(arg3=val3)
-    TestProcessor(arg4=val4)
-    TestExporter( arg5=val5            arg6=val6 )

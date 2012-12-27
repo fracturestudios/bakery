@@ -84,10 +84,13 @@ class BuildChain:
         exp = self._export_step
         a = Asset()
 
+        print '    ', str(imp)
         import_asset(instream, imp.name, imp.args, a)
 
         for p in self._process_steps:
+            print '    ', str(p)
             process_asset(p.name, p.args, a)
 
+        print '    ', str(exp)
         export_asset(outstream, exp.name, exp.args, a)
 
