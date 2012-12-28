@@ -31,7 +31,13 @@ def help():
 def version():
     print 'bake v%d.%d' % (VERSION_MAJOR, VERSION_MINOR)
     print 'bakery v%d.%d' % (BC.VERSION_MAJOR, BC.VERSION_MINOR)
-    pass
+
+def version_check():
+    if VERSION_MAJOR != BC.VERSION_MAJOR or \
+       VERSION_MINOR != BC.VERSION_MINOR:
+           print 'WARNING - bake utility version different than bakery library version'
+           version()
+           print # newline
 
 def bake(bakefile):
     b = BB.Bakefile()
@@ -54,7 +60,9 @@ def main():
     else:
         bakefile = sys.argv[1]
 
+    version_check()
     BC.load_extensions()
+    print # newline
     bake(bakefile)
 
 if __name__ == '__main__':
