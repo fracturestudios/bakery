@@ -6,6 +6,9 @@ import os
 
 from imp import load_dynamic
 
+VERSION_MAJOR = 0
+VERSION_MINOR = 1
+
 _SCRIPTDIR =  os.path.dirname(os.path.realpath(__file__))
 _EXTROOT = os.path.join(_SCRIPTDIR, 'ext')
 

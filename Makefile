@@ -13,5 +13,6 @@ distclean:
 
 install:
 	python ./setup.py install
+	cp ./bake /usr/bin
 	cd ext/test && make install
 

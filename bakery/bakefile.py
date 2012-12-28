@@ -93,6 +93,8 @@ class BakefileItem:
         exist or is out of date, the input is loaded and passed through the
         build chain using the API in bakery.core.
         """
+        print # newline
+
         self.fill()
 
         inputpaths = glob.glob(self.inputs)

@@ -4,7 +4,7 @@ static PyObject *g_module;
 
 PyObject *import_callback(PyObject *module, PyObject *args)
 {
-    printf("import_callback\n");
+    sleep(1);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -12,7 +12,7 @@ PyObject *import_callback(PyObject *module, PyObject *args)
 
 PyObject *process_callback(PyObject *module, PyObject *args)
 {
-    printf("process_callback\n");
+    sleep(1);
 
     Py_INCREF(Py_None);
     return Py_None;
@@ -20,7 +20,7 @@ PyObject *process_callback(PyObject *module, PyObject *args)
 
 PyObject *export_callback(PyObject *module, PyObject *args)
 {
-    printf("export_callback\n");
+    sleep(1);
 
     Py_INCREF(Py_None);
     return Py_None;

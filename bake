@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+
+import bakery.core as BC
+import bakery.buildchain as BBC
+import bakery.bakefile as BB
+
+import os
+import sys
+
+VERSION_MAJOR = 0
+VERSION_MINOR = 1
+
+def usage():
+    print 'Usage: bake [ --help | --version | bakefile ]'
+    print 
+    print '--help:    Display help text'
+    print '--version: Print bake and bakery versions'
+    print 'bakefile:  Path to the bakefile to process.'
+    print '           If omitted, uses ./Bakefile (like make).'
+    print
+
+def help():
+    print 'Bakery is a game asset precompiler:'
+    print '    http://github.com/fracturestudios/bakery'
+    print
+    print 'Bake processes Bakefiles:'
+    print '    [bakery repo]/doc/bakefile.markdown'
+    print
+    usage()
+
+def version():
+    print 'bake v%d.%d' % (VERSION_MAJOR, VERSION_MINOR)
+    print 'bakery v%d.%d' % (BC.VERSION_MAJOR, BC.VERSION_MINOR)
+    pass
+
+def bake(bakefile):
+    b = BB.Bakefile()
+    b.load(bakefile)
+    b.bake()
+
+def main():
+    bakefile = './Bakefile'
+
+    if len(sys.argv) == 1:
+        if not os.path.exists('./Bakefile'):
+            usage()
+            return
+    elif sys.argv[1] == '--help':
+        help()
+        return
+    elif sys.argv[1] == '--version':
+        version()
+        return
+    else:
+        bakefile = sys.argv[1]
+
+    BC.load_extensions()
+    bake(bakefile)
+
+if __name__ == '__main__':
+    main()
+

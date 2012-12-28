@@ -2,6 +2,8 @@
 from bakery.asset import *
 from bakery.core import *
 
+import sys
+
 class BuildStep:
     """
     Represents an intermediate processing step in the build chain
@@ -84,13 +86,19 @@ class BuildChain:
         exp = self._export_step
         a = Asset()
 
-        print '    ', str(imp)
+        print '    ', str(imp), '...',
+        sys.stdout.flush()
         import_asset(instream, imp.name, imp.args, a)
+        print 'done'
 
         for p in self._process_steps:
-            print '    ', str(p)
+            print '    ', str(p), '...',
+            sys.stdout.flush()
             process_asset(p.name, p.args, a)
+            print 'done'
 
-        print '    ', str(exp)
+        print '    ', str(exp), '...',
+        sys.stdout.flush()
         export_asset(outstream, exp.name, exp.args, a)
+        print 'done'
 
